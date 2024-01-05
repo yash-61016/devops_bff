@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "w9BbMpRyOxMOQEPlV7BDQ307fD+l4A4z3vz28ql7Axs=",
+  "Source": "devops_bff",
+  "BasePath": "_content/devops_bff",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
