@@ -1,5 +1,6 @@
 using devops_bff.Models;
-using devops_cart_service.Models.Dto;
+using devops_bff.Models.Dto.Create;
+using devops_bff.Models.Dto.Update;
 
 namespace devops_bff.Services.IServices
 {

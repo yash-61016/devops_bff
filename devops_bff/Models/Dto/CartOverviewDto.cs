@@ -1,7 +1,8 @@
-namespace devops_bff.Models.Dto.Create
+namespace devops_bff.Models.Dto
 {
-    public class CartOverviewCreateDto
+    public class CartOverviewDto
     {
+        public int CartId { get; set; }
         public int UserId { get; set; }
         public decimal Discount { get; set; }
         public decimal TotalPrice { get; set; }

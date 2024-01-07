@@ -1,10 +1,12 @@
-namespace devops_bff.Models.Dto.Update
+namespace devops_bff.Models.Dto
 {
-    public class CartProductUpdateDto
+    public class CartProductDto
     {
         public int CartProductId { get; set; }
+        public int CartId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public bool IsDeleted { get; set; }
+
     }
+
 }
