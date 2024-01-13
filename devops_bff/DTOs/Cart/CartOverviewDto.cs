@@ -1,4 +1,4 @@
-namespace devops_bff.Models.Dto
+namespace devops_bff.DTOs.Cart
 {
     public class CartOverviewDto
     {

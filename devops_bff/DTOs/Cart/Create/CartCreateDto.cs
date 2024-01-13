@@ -1,4 +1,4 @@
-namespace devops_bff.Models.Dto.Create
+namespace devops_bff.DTOs.Cart.Create
 {
     public class CartCreateDto
     {

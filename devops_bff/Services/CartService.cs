@@ -2,11 +2,11 @@ using System;
 using System.Net;
 using devops_bff.Models;
 using devops_bff.Services.IServices;
-using devops_bff.Models.Dto;
-using devops_bff.Models.Dto.Create;
-using devops_bff.Models.Dto.Update;
+
 using System.Text.Json;
-using devops_cart_service.Models.Dto;
+using devops_bff.DTOs.Cart.Create;
+using devops_bff.DTOs.Cart;
+using devops_bff.DTOs.Cart.Update;
 
 namespace devops_bff.Services
 {

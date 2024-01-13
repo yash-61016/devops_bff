@@ -1,6 +1,6 @@
-using devops_bff.Models.Dto;
 
-namespace devops_cart_service.Models.Dto
+
+namespace devops_bff.DTOs.Cart
 {
     public class CartDto
     {

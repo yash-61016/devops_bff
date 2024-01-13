@@ -1,4 +1,4 @@
-namespace devops_bff.Models.Dto.Update
+namespace devops_bff.DTOs.Cart.Update
 {
     public class CartProductUpdateDto
     {
