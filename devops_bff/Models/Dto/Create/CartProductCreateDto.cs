@@ -2,8 +2,8 @@ namespace devops_bff.Models.Dto.Create
 {
     public class CartProductCreateDto
     {
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public int productId { get; set; }
+        public int quantity { get; set; }
 
     }
 }

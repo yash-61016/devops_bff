@@ -23,14 +23,129 @@ namespace devops_bff.Services
             _logger = logger;
         }
 
-        public Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO)
+        public async Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO)
         {
-            throw new NotImplementedException();
+            var apiResponse = new APIResponse();
+            try
+            {
+                var response = await _client.PostAsJsonAsync("/cart/create", cart_C_DTO);
+
+                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    _logger.LogError("Bad request when creating cart for user ID {UserId}", cart_C_DTO.cartOverview.userId);
+
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = response.StatusCode;
+                    apiResponse.ErrorMessages.Add("Bad request when creating cart");
+                    return apiResponse;
+                }
+
+                response.EnsureSuccessStatusCode();
+                var cartServiceApiResponse = await response.Content.ReadFromJsonAsync<APIResponse>();
+
+                if (cartServiceApiResponse != null && cartServiceApiResponse.IsSuccess)
+                {
+                    var _cartDto = JsonSerializer.Deserialize<CartDto>(JsonSerializer.Serialize(cartServiceApiResponse.Result));
+
+                    if (_cartDto != null)
+                    {
+                        apiResponse.IsSuccess = true;
+                        apiResponse.StatusCode = HttpStatusCode.OK;
+                        apiResponse.Result = cartServiceApiResponse.Result;
+                        return apiResponse;
+                    }
+                    else
+                    {
+                        apiResponse.IsSuccess = false;
+                        apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                        apiResponse.ErrorMessages.Add("Error creating cart");
+                        return apiResponse;
+                    }
+                }
+                else
+                {
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = cartServiceApiResponse?.StatusCode ?? HttpStatusCode.InternalServerError;
+                    apiResponse.ErrorMessages.Add("Error creating cart");
+
+                    _logger.LogError("Error creating cart for user ID {UserId}. Status code: {StatusCode}, Error messages: {ErrorMessages}",
+                                     cart_C_DTO.cartOverview.userId, apiResponse.StatusCode, string.Join(", ", apiResponse.ErrorMessages));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected exception occurred: {Message}", ex.Message);
+
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                apiResponse.ErrorMessages.Add($"An unexpected error occurred: {ex.Message}");
+            }
+
+            return apiResponse;
         }
 
-        public Task<APIResponse> DeleteCartAsync(int cartId)
+        public async Task<APIResponse> DeleteCartAsync(int cartId)
         {
-            throw new NotImplementedException();
+            var apiResponse = new APIResponse();
+
+            try
+            {
+                var response = await _client.DeleteAsync($"cart/{cartId}");
+
+                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    _logger.LogError("Cart not found for cart ID {CartId}", cartId);
+
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = response.StatusCode;
+                    apiResponse.ErrorMessages.Add("Cart not found");
+                    return apiResponse;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                if (response.StatusCode == HttpStatusCode.NoContent || response.StatusCode == HttpStatusCode.OK)
+                {
+                    apiResponse.IsSuccess = true;
+                    apiResponse.StatusCode = HttpStatusCode.NoContent;
+                }
+                else
+                {
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                    apiResponse.ErrorMessages.Add("Error deleting cart");
+
+                    _logger.LogError("Error deleting cart for cart ID {CartId}. Status code: {StatusCode}, Error messages: {ErrorMessages}",
+                                     cartId, apiResponse.StatusCode, string.Join(", ", apiResponse.ErrorMessages));
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "HttpRequestException occurred: {Message}", ex.Message);
+
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                apiResponse.ErrorMessages.Add($"An error occurred: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "JsonException occurred: {Message}", ex.Message);
+
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                apiResponse.ErrorMessages.Add($"An error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected exception occurred: {Message}", ex.Message);
+
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                apiResponse.ErrorMessages.Add($"An unexpected error occurred: {ex.Message}");
+            }
+
+            return apiResponse;
         }
 
         public async Task<APIResponse> GetCartAsync(int userId)
@@ -111,9 +226,66 @@ namespace devops_bff.Services
             return apiResponse;
         }
 
-        public Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO)
+        public async Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO)
         {
-            throw new NotImplementedException();
+            var apiResponse = new APIResponse();
+            try
+            {
+                var response = await _client.PutAsJsonAsync("/cart/update", cart_U_DTO);
+
+                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    _logger.LogError("Bad request when updating cart for user ID {UserId}", cart_U_DTO.cartOverview.userId);
+
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = response.StatusCode;
+                    apiResponse.ErrorMessages.Add("Bad request when updating cart");
+                    return apiResponse;
+                }
+
+                response.EnsureSuccessStatusCode();
+                var cartServiceApiResponse = await response.Content.ReadFromJsonAsync<APIResponse>();
+
+                if (cartServiceApiResponse != null && cartServiceApiResponse.IsSuccess)
+                {
+                    var _cartDto = JsonSerializer.Deserialize<CartDto>(JsonSerializer.Serialize(cartServiceApiResponse.Result));
+
+                    if (_cartDto != null)
+                    {
+                        apiResponse.IsSuccess = true;
+                        apiResponse.StatusCode = HttpStatusCode.OK;
+                        apiResponse.Result = cartServiceApiResponse.Result;
+                        return apiResponse;
+                    }
+                    else
+                    {
+                        apiResponse.IsSuccess = false;
+                        apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                        apiResponse.ErrorMessages.Add("Error updating cart");
+                        return apiResponse;
+                    }
+                }
+                else
+                {
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = cartServiceApiResponse?.StatusCode ?? HttpStatusCode.InternalServerError;
+                    apiResponse.ErrorMessages.Add("Error updating cart");
+
+                    _logger.LogError("Error updating cart for user ID {UserId}. Status code: {StatusCode}, Error messages: {ErrorMessages}",
+                                     cart_U_DTO.cartOverview.userId, apiResponse.StatusCode, string.Join(", ", apiResponse.ErrorMessages));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected exception occurred: {Message}", ex.Message);
+
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                apiResponse.ErrorMessages.Add($"An unexpected error occurred: {ex.Message}");
+            }
+
+            return apiResponse;
         }
     }
 }
