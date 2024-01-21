@@ -7,6 +7,7 @@ using System.Text.Json;
 using devops_bff.DTOs.Cart.Create;
 using devops_bff.DTOs.Cart;
 using devops_bff.DTOs.Cart.Update;
+using System.Net.Http.Headers;
 
 namespace devops_bff.Services
 {
@@ -148,12 +149,13 @@ namespace devops_bff.Services
             return apiResponse;
         }
 
-        public async Task<APIResponse> GetCartAsync(int userId)
+        public async Task<APIResponse> GetCartAsync(int userId, string token)
         {
             var apiResponse = new APIResponse();
 
             try
             {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _client.GetAsync($"cart/user-{userId}");
 
                 if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)

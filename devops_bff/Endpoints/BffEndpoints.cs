@@ -2,6 +2,7 @@
 using devops_bff.DTOs.Cart.Create;
 using devops_bff.DTOs.Cart.Update;
 using devops_bff.Models;
+using devops_bff.Services;
 using devops_bff.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,22 +15,44 @@ namespace devops_bff.Endpoints
             app.MapGet("/api/cart/user-{userId}", GetCart)
             .WithName("GetCart")
             .Produces<APIResponse>(200)
-            .Produces(400);
+            .Produces(400)
+            .RequireAuthorization();
 
             app.MapPost("/api/cart/create", CreateCart)
             .WithName("CreateCart")
             .Produces<APIResponse>(200)
-            .Produces(400);
+            .Produces(400)
+            .RequireAuthorization();
 
             app.MapPut("/api/cart/update", UpdateCart)
             .WithName("UpdateCart")
             .Produces<APIResponse>(200)
-            .Produces(400);
+            .Produces(400)
+            .RequireAuthorization();
 
             app.MapDelete("/api/cart/{cartId}", DeleteCart)
             .WithName("DeleteCart")
             .Produces<APIResponse>(200)
-            .Produces(400);
+            .Produces(400)
+            .RequireAuthorization();
+
+            app.MapGet("/api/product/categories", GetProductCategories)
+            .WithName("GetProductCategories")
+            .Produces<APIResponse>(200)
+            .Produces(400)
+            .RequireAuthorization();
+
+            app.MapGet("/api/products/{categoryId}", GetProductsByCategory)
+            .WithName("GetProducts")
+            .Produces<APIResponse>(200)
+            .Produces(400)
+            .RequireAuthorization();
+
+            app.MapGet("/api/featured-product/{categoryId}", GetFeaturedProduct)
+            .WithName("GetFeaturedProduct")
+            .Produces<APIResponse>(200)
+            .Produces(400)
+            .RequireAuthorization();
         }
 
         private static async Task<IResult> DeleteCart(
@@ -51,9 +74,11 @@ namespace devops_bff.Endpoints
 
         private async static Task<IResult> GetCart(
             ICartService _cartService,
+            ITokenService _tokenService,
             [FromRoute] int userId)
         {
-            var result = await _cartService.GetCartAsync(userId);
+            var accessToken = await _tokenService.GetTokenAsync("Auth:Audience_Cart", "Auth:ClientId_Cart");
+            var result = await _cartService.GetCartAsync(userId, accessToken);
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
         }
 
@@ -65,5 +90,27 @@ namespace devops_bff.Endpoints
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
         }
 
+        private async static Task<IResult> GetProductCategories(
+            IProductService _productService)
+        {
+            var result = await _productService.GetProductCategoriesAsync();
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
+        }
+
+        private async static Task<IResult> GetProductsByCategory(
+            IProductService _productService,
+            [FromRoute] int categoryId)
+        {
+            var result = await _productService.GetProductsAsync(categoryId);
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
+        }
+
+        private async static Task<IResult> GetFeaturedProduct(
+            IProductService _productService,
+            [FromRoute] int categoryId)
+        {
+            var result = await _productService.GetFeaturedProductAsync(categoryId);
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
+        }
     }
 }

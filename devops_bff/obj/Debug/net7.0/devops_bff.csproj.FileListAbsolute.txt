@@ -31,3 +31,11 @@
 /Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/obj/Debug/net7.0/devops_bff.pdb
 /Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/obj/Debug/net7.0/devops_bff.genruntimeconfig.cache
 /Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/obj/Debug/net7.0/ref/devops_bff.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
+/Users/yashpatel/developer/z_repos/uni_devops/devops_bff/devops_bff/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
