@@ -30,7 +30,7 @@ namespace devops_bff.Endpoints
             .Produces(400)
             .RequireAuthorization();
 
-            app.MapDelete("/api/cart/delete-{cartId}", DeleteCart)
+            app.MapDelete("/api/card/{cartId}", DeleteCart)
             .WithName("DeleteCart")
             .Produces<APIResponse>(200)
             .Produces(400)
