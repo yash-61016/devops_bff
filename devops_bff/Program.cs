@@ -41,7 +41,7 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    builder.Services.AddHttpClient<IProductService, ProductFakeService>();
+    builder.Services.AddHttpClient<IProductService, ProductService>();
 }
 
 var app = builder.Build();
