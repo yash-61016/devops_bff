@@ -26,11 +26,12 @@ namespace devops_bff.Services
             _logger = logger;
         }
 
-        public async Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO)
+        public async Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO, string token)
         {
             var apiResponse = new APIResponse();
             try
             {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _client.PostAsJsonAsync("/cart/create", cart_C_DTO);
 
                 if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
@@ -88,12 +89,13 @@ namespace devops_bff.Services
             return apiResponse;
         }
 
-        public async Task<APIResponse> DeleteCartAsync(int cartId)
+        public async Task<APIResponse> DeleteCartAsync(int cartId, string token)
         {
             var apiResponse = new APIResponse();
 
             try
             {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _client.DeleteAsync($"cart/{cartId}");
 
                 if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
@@ -230,11 +232,12 @@ namespace devops_bff.Services
             return apiResponse;
         }
 
-        public async Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO)
+        public async Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO, string token)
         {
             var apiResponse = new APIResponse();
             try
             {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _client.PutAsJsonAsync("/cart/update", cart_U_DTO);
 
                 if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)

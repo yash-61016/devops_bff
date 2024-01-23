@@ -6,9 +6,9 @@ namespace devops_bff.Services.IServices
 {
     public interface ICartService
     {
-        Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO);
+        Task<APIResponse> CreateCartAsync(CartCreateDto cart_C_DTO, string token);
         Task<APIResponse> GetCartAsync(int userId, string token);
-        Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO);
-        Task<APIResponse> DeleteCartAsync(int cartId);
+        Task<APIResponse> UpdateCartAsync(CartUpdateDto cart_U_DTO, string token);
+        Task<APIResponse> DeleteCartAsync(int cartId, string token);
     }
 }

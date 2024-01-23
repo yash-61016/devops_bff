@@ -57,18 +57,22 @@ namespace devops_bff.Endpoints
 
         private static async Task<IResult> DeleteCart(
             ICartService _cartService,
+            ITokenService _tokenService,
             [FromRoute] int cartId)
         {
-            var result = await _cartService.DeleteCartAsync(cartId);
+            var accessToken = await _tokenService.GetTokenAsync("Auth:Audience_Cart", "Auth:ClientId_Cart");
+            var result = await _cartService.DeleteCartAsync(cartId, accessToken);
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
         }
 
         private async static Task<IResult> UpdateCart(
             ICartService _cartService,
+            ITokenService _tokenService,
             [FromBody] CartUpdateDto cart_U_DTO
         )
         {
-            var result = await _cartService.UpdateCartAsync(cart_U_DTO);
+            var accessToken = await _tokenService.GetTokenAsync("Auth:Audience_Cart", "Auth:ClientId_Cart");
+            var result = await _cartService.UpdateCartAsync(cart_U_DTO, accessToken);
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
         }
 
@@ -84,9 +88,11 @@ namespace devops_bff.Endpoints
 
         private async static Task<IResult> CreateCart(
             ICartService _cartService,
+            ITokenService _tokenService,
             [FromBody] CartCreateDto cart_C_DTO)
         {
-            var result = await _cartService.CreateCartAsync(cart_C_DTO);
+            var accessToken = await _tokenService.GetTokenAsync("Auth:Audience_Cart", "Auth:ClientId_Cart");
+            var result = await _cartService.CreateCartAsync(cart_C_DTO, accessToken);
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(result);
         }
 
