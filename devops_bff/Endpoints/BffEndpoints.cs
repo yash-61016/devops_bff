@@ -39,20 +39,17 @@ namespace devops_bff.Endpoints
             app.MapGet("/api/product/categories", GetProductCategories)
             .WithName("GetProductCategories")
             .Produces<APIResponse>(200)
-            .Produces(400)
-            .RequireAuthorization();
+            .Produces(400);
 
             app.MapGet("/api/products/{categoryId}", GetProductsByCategory)
             .WithName("GetProducts")
             .Produces<APIResponse>(200)
-            .Produces(400)
-            .RequireAuthorization();
+            .Produces(400);
 
             app.MapGet("/api/featured-product/{categoryId}", GetFeaturedProduct)
             .WithName("GetFeaturedProduct")
             .Produces<APIResponse>(200)
-            .Produces(400)
-            .RequireAuthorization();
+            .Produces(400);
         }
 
         private static async Task<IResult> DeleteCart(
