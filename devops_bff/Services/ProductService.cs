@@ -10,10 +10,12 @@ namespace devops_bff.Services
     {
         private readonly HttpClient _client;
         private readonly ILogger<CartService> _logger;
+        private readonly IConfiguration _configuration;
 
-        public ProductService(HttpClient client, ILogger<CartService> logger)
+        public ProductService(HttpClient client, ILogger<CartService> logger, IConfiguration configuration)
         {
-            client.BaseAddress = new Uri("http://localhost:7030/");
+            _configuration = configuration;
+            client.BaseAddress = new Uri(_configuration["Services:ProductServiceUrl"]!);
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
